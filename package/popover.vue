@@ -9,10 +9,11 @@
     >
       <slot name="reference"></slot>
     </span>
-    <Teleport to="body">
+    <Teleport :to="appendTo">
       <Transition name="fade">
         <div
           class="popover"
+          :class="[popperClass, { 'dark-mode': darkMode }]"
           v-if="visible"
           :style="[{ zIndex: zIndex, width: isNumber(props.width) ? props.width + 'px' : props.width }, popoverStyle]"
           ref="popoverRef"
@@ -54,6 +55,10 @@ const props = withDefaults(
     content?: string;
     zIndex?: number;
     trigger?: "click" | "hover";
+    popperClass?: string;
+    appendTo?: string;
+    darkMode?: boolean;
+    disabled?: boolean;
   }>(),
   {
     placement: "bottom",
@@ -62,12 +67,24 @@ const props = withDefaults(
     content: "",
     zIndex: 1999,
     trigger: "click",
+    popperClass: "",
+    appendTo: "body",
+    darkMode: false,
+    disabled: false,
   }
 );
 const isNumber = (val: number | string) => {
   return typeof val === "number";
 };
 const visible = ref(false);
+const open = () => {
+  visible.value = true;
+  emits("open");
+};
+const close = () => {
+  visible.value = false;
+  emits("close");
+};
 const allPlacement = [
   "top",
   "top-start",
@@ -85,6 +102,7 @@ const allPlacement = [
 const popoverRef = ref();
 const triggerRef = ref();
 const popoverRect = ref();
+const emits = defineEmits(["open", "close"]);
 watch(
   () => visible.value,
   (val) => {
@@ -99,16 +117,20 @@ watch(
   }
 );
 const togglePopover = () => {
-  if (props.trigger !== "click") return;
-  visible.value = !visible.value;
+  if (props.trigger !== "click" || props.disabled) return;
+  if (visible.value) {
+    close();
+  } else {
+    open();
+  }
 };
 const mouseenter = () => {
-  if (props.trigger !== "hover") return;
-  visible.value = true;
+  if (props.trigger !== "hover" || props.disabled) return;
+  open();
 };
 const mouseleave = () => {
-  if (props.trigger !== "hover") return;
-  visible.value = false;
+  if (props.trigger !== "hover" || props.disabled) return;
+  close();
 };
 const popoverArrowStyle = computed(() => {
   if (!triggerRef.value || !popoverRect.value) return {};
@@ -242,7 +264,7 @@ const popoverStyle = computed(() => {
 
 const handleClickOutside = (event: Event) => {
   if (popoverRef.value && !popoverRef.value.contains(event.target) && !triggerRef.value.contains(event.target)) {
-    visible.value = false;
+    close();
   }
 };
 
@@ -251,7 +273,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  visible.value = false;
+  close();
   window.removeEventListener("click", handleClickOutside);
 });
 </script>
@@ -266,6 +288,13 @@ span.popover-trigger {
   --popover-background-color: #ffffff;
   --popover-border-color: #e4e7ed;
   --popover-shadow-color: rgba(0, 0, 0, 0.12);
+  &.dark-mode {
+    --popover-title-color: #ffffff;
+    --popover-content-color: #cccccc;
+    --popover-background-color: #1d1e1f;
+    --popover-border-color: #414243;
+    --popover-shadow-color: rgba(0, 0, 0, 0.12);
+  }
   .popover-content {
     background: var(--popover-background-color);
     padding: 10px;

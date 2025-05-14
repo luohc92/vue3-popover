@@ -1,8 +1,8 @@
-import { defineComponent as B, ref as d, watch as z, nextTick as N, computed as b, onMounted as S, onUnmounted as E, openBlock as v, createElementBlock as p, createElementVNode as f, renderSlot as g, createBlock as I, Teleport as T, createVNode as V, Transition as M, withCtx as P, normalizeStyle as k, normalizeClass as L, toDisplayString as m, createCommentVNode as _, createTextVNode as O } from "vue";
-const A = { class: "popover-wrapper" }, D = { class: "popover-content" }, U = {
+import { defineComponent as E, ref as h, watch as I, nextTick as V, computed as y, onMounted as x, onUnmounted as P, openBlock as c, createElementBlock as f, createElementVNode as g, renderSlot as b, createBlock as L, Teleport as O, createVNode as A, Transition as D, withCtx as U, normalizeClass as C, normalizeStyle as R, toDisplayString as B, createCommentVNode as $, createTextVNode as j } from "vue";
+const q = { class: "popover-wrapper" }, F = { class: "popover-content" }, G = {
   key: 0,
   class: "popover-title"
-}, j = /* @__PURE__ */ B({
+}, H = /* @__PURE__ */ E({
   __name: "popover",
   props: {
     placement: { default: "bottom" },
@@ -10,10 +10,19 @@ const A = { class: "popover-wrapper" }, D = { class: "popover-content" }, U = {
     title: { default: "" },
     content: { default: "" },
     zIndex: { default: 1999 },
-    trigger: { default: "click" }
+    trigger: { default: "click" },
+    popperClass: { default: "" },
+    appendTo: { default: "body" },
+    darkMode: { type: Boolean, default: !1 },
+    disabled: { type: Boolean, default: !1 }
   },
-  setup(h) {
-    const r = h, u = (a) => typeof a == "number", i = d(!1), c = [
+  emits: ["open", "close"],
+  setup(d, { emit: p }) {
+    const r = d, v = (o) => typeof o == "number", i = h(!1), k = () => {
+      i.value = !0, m("open");
+    }, u = () => {
+      i.value = !1, m("close");
+    }, w = [
       "top",
       "top-start",
       "top-end",
@@ -26,167 +35,167 @@ const A = { class: "popover-wrapper" }, D = { class: "popover-content" }, U = {
       "right",
       "right-start",
       "right-end"
-    ], s = d(), n = d(), t = d();
-    z(
+    ], n = h(), s = h(), t = h(), m = p;
+    I(
       () => i.value,
-      (a) => {
-        !a || N(() => {
-          if (!s.value) {
+      (o) => {
+        !o || V(() => {
+          if (!n.value) {
             t.value = null;
             return;
           }
-          t.value = s.value.getBoundingClientRect();
+          t.value = n.value.getBoundingClientRect();
         });
       }
     );
-    const y = () => {
-      r.trigger === "click" && (i.value = !i.value);
-    }, R = () => {
-      r.trigger === "hover" && (i.value = !0);
-    }, C = () => {
-      r.trigger === "hover" && (i.value = !1);
-    }, $ = b(() => {
-      if (!n.value || !t.value)
+    const T = () => {
+      r.trigger !== "click" || r.disabled || (i.value ? u() : k());
+    }, z = () => {
+      r.trigger !== "hover" || r.disabled || k();
+    }, M = () => {
+      r.trigger !== "hover" || r.disabled || u();
+    }, N = y(() => {
+      if (!s.value || !t.value)
         return {};
-      const a = n.value.getBoundingClientRect();
-      let e = 0, o = 0, l = r.placement;
-      switch (c.includes(l) || (l = "bottom"), l) {
+      const o = s.value.getBoundingClientRect();
+      let e = 0, a = 0, l = r.placement;
+      switch (w.includes(l) || (l = "bottom"), l) {
         case "left":
-          e = t.value.width - 5, o = t.value.height / 2 - 5;
+          e = t.value.width - 5, a = t.value.height / 2 - 5;
           break;
         case "left-start":
-          e = t.value.width - 5, o = a.height / 2 - 5;
+          e = t.value.width - 5, a = o.height / 2 - 5;
           break;
         case "left-end":
-          e = t.value.width - 5, o = t.value.height - a.height / 2 - 5;
+          e = t.value.width - 5, a = t.value.height - o.height / 2 - 5;
           break;
         case "right":
-          e = -5, o = t.value.height / 2 - 5;
+          e = -5, a = t.value.height / 2 - 5;
           break;
         case "right-start":
-          e = -5, o = a.height / 2 - 5;
+          e = -5, a = o.height / 2 - 5;
           break;
         case "right-end":
-          e = -5, o = t.value.height - a.height / 2 - 5;
+          e = -5, a = t.value.height - o.height / 2 - 5;
           break;
         case "top":
-          e = t.value.width / 2 - 5, o = t.value.height - 5;
+          e = t.value.width / 2 - 5, a = t.value.height - 5;
           break;
         case "top-start":
-          e = a.width / 2 - 5, o = t.value.height - 5;
+          e = o.width / 2 - 5, a = t.value.height - 5;
           break;
         case "top-end":
-          e = t.value.width - a.width / 2 - 5, o = t.value.height - 5;
+          e = t.value.width - o.width / 2 - 5, a = t.value.height - 5;
           break;
         case "bottom":
-          e = t.value.width / 2 - 5, o = -5;
+          e = t.value.width / 2 - 5, a = -5;
           break;
         case "bottom-start":
-          e = a.width / 2 - 5, o = -5;
+          e = o.width / 2 - 5, a = -5;
           break;
         case "bottom-end":
-          e = t.value.width - a.width / 2 - 5, o = -5;
+          e = t.value.width - o.width / 2 - 5, a = -5;
           break;
       }
-      return o > t.value.height && (o = t.value.height - 20), e > t.value.width && (e = t.value.width - 20), { left: `${e}px`, top: `${o}px` };
-    }), x = b(() => {
-      if (!n.value || !t.value)
+      return a > t.value.height && (a = t.value.height - 20), e > t.value.width && (e = t.value.width - 20), { left: `${e}px`, top: `${a}px` };
+    }), S = y(() => {
+      if (!s.value || !t.value)
         return {};
-      let a = r.placement;
-      c.includes(a) || (a = "bottom");
-      const e = n.value.getBoundingClientRect();
-      let o = 0, l = 0;
-      switch (a) {
+      let o = r.placement;
+      w.includes(o) || (o = "bottom");
+      const e = s.value.getBoundingClientRect();
+      let a = 0, l = 0;
+      switch (o) {
         case "left":
-          o = e.top - t.value.height / 2 + e.height / 2, l = e.left - t.value.width - 10;
+          a = e.top - t.value.height / 2 + e.height / 2, l = e.left - t.value.width - 10;
           break;
         case "left-start":
-          o = e.top, l = e.left - t.value.width - 10;
+          a = e.top, l = e.left - t.value.width - 10;
           break;
         case "left-end":
-          o = e.top - t.value.height + e.height, l = e.left - t.value.width - 10;
+          a = e.top - t.value.height + e.height, l = e.left - t.value.width - 10;
           break;
         case "right":
-          o = e.top - t.value.height / 2 + e.height / 2, l = e.left + e.width + 10;
+          a = e.top - t.value.height / 2 + e.height / 2, l = e.left + e.width + 10;
           break;
         case "right-start":
-          o = e.top, l = e.left + e.width + 10;
+          a = e.top, l = e.left + e.width + 10;
           break;
         case "right-end":
-          o = e.top - t.value.height + e.height, l = e.left + e.width + 10;
+          a = e.top - t.value.height + e.height, l = e.left + e.width + 10;
           break;
         case "top":
-          o = e.top - t.value.height - 10, l = e.left - t.value.width / 2 + e.width / 2;
+          a = e.top - t.value.height - 10, l = e.left - t.value.width / 2 + e.width / 2;
           break;
         case "top-start":
-          o = e.top - t.value.height - 10, l = e.left;
+          a = e.top - t.value.height - 10, l = e.left;
           break;
         case "top-end":
-          o = e.top - t.value.height - 10, l = e.left + e.width - t.value.width;
+          a = e.top - t.value.height - 10, l = e.left + e.width - t.value.width;
           break;
         case "bottom":
-          o = e.top + e.height + 10, l = e.left - t.value.width / 2 + e.width / 2;
+          a = e.top + e.height + 10, l = e.left - t.value.width / 2 + e.width / 2;
           break;
         case "bottom-start":
-          o = e.top + e.height + 10, l = e.left;
+          a = e.top + e.height + 10, l = e.left;
           break;
         case "bottom-end":
-          o = e.top + e.height + 10, l = e.left + e.width - t.value.width;
+          a = e.top + e.height + 10, l = e.left + e.width - t.value.width;
           break;
       }
-      return { position: "absolute", top: `${o}px`, left: `${l}px` };
-    }), w = (a) => {
-      s.value && !s.value.contains(a.target) && !n.value.contains(a.target) && (i.value = !1);
+      return { position: "absolute", top: `${a}px`, left: `${l}px` };
+    }), _ = (o) => {
+      n.value && !n.value.contains(o.target) && !s.value.contains(o.target) && u();
     };
-    return S(() => {
-      window.addEventListener("click", w);
-    }), E(() => {
-      i.value = !1, window.removeEventListener("click", w);
-    }), (a, e) => (v(), p("div", A, [
-      f("span", {
+    return x(() => {
+      window.addEventListener("click", _);
+    }), P(() => {
+      u(), window.removeEventListener("click", _);
+    }), (o, e) => (c(), f("div", q, [
+      g("span", {
         class: "popover-trigger",
         ref_key: "triggerRef",
-        ref: n,
-        onClick: y,
-        onMouseenter: R,
-        onMouseleave: C
+        ref: s,
+        onClick: T,
+        onMouseenter: z,
+        onMouseleave: M
       }, [
-        g(a.$slots, "reference", {}, void 0, !0)
+        b(o.$slots, "reference", {}, void 0, !0)
       ], 544),
-      (v(), I(T, { to: "body" }, [
-        V(M, { name: "fade" }, {
-          default: P(() => [
-            i.value ? (v(), p("div", {
+      (c(), L(O, { to: o.appendTo }, [
+        A(D, { name: "fade" }, {
+          default: U(() => [
+            i.value ? (c(), f("div", {
               key: 0,
-              class: "popover",
-              style: k([{ zIndex: a.zIndex, width: u(r.width) ? r.width + "px" : r.width }, x.value]),
+              class: C(["popover", [o.popperClass, { "dark-mode": o.darkMode }]]),
+              style: R([{ zIndex: o.zIndex, width: v(r.width) ? r.width + "px" : r.width }, S.value]),
               ref_key: "popoverRef",
-              ref: s
+              ref: n
             }, [
-              f("div", {
-                class: L(["popover-arrow", "popover-arrow__" + a.placement]),
-                style: k($.value)
+              g("div", {
+                class: C(["popover-arrow", "popover-arrow__" + o.placement]),
+                style: R(N.value)
               }, null, 6),
-              f("div", D, [
-                a.title ? (v(), p("div", U, m(a.title), 1)) : _("", !0),
-                a.$slots.default ? g(a.$slots, "default", { key: 2 }, void 0, !0) : g(a.$slots, "default", { key: 1 }, () => [
-                  O(m(a.content), 1)
+              g("div", F, [
+                o.title ? (c(), f("div", G, B(o.title), 1)) : $("", !0),
+                o.$slots.default ? b(o.$slots, "default", { key: 2 }, void 0, !0) : b(o.$slots, "default", { key: 1 }, () => [
+                  j(B(o.content), 1)
                 ], !0)
               ])
-            ], 4)) : _("", !0)
+            ], 6)) : $("", !0)
           ]),
           _: 3
         })
-      ]))
+      ], 8, ["to"]))
     ]));
   }
 });
-const q = (h, r) => {
-  const u = h.__vccOpts || h;
-  for (const [i, c] of r)
-    u[i] = c;
-  return u;
-}, G = /* @__PURE__ */ q(j, [["__scopeId", "data-v-db121eef"]]);
+const J = (d, p) => {
+  const r = d.__vccOpts || d;
+  for (const [v, i] of p)
+    r[v] = i;
+  return r;
+}, Q = /* @__PURE__ */ J(H, [["__scopeId", "data-v-ea753d0c"]]);
 export {
-  G as default
+  Q as default
 };

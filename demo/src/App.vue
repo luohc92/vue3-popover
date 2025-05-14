@@ -4,21 +4,39 @@
       <div class="row center">
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
-          content="Top Left"
+          content="Top Start"
           placement="top-start"
+          popperClass="popperClass"
+          @open="handleOpen"
+          @close="handleClose"
         >
           <template #reference>
             <el-button>top-start</el-button>
           </template>
         </Popover>
-        <Popover class="box-item" :trigger="trigger" title="Title" content="Top Center" placement="top">
+        <Popover
+          class="box-item"
+          :darkMode="theme === 'dark'"
+          :trigger="trigger"
+          title="Title"
+          content="Top Center"
+          placement="top"
+        >
           <template #reference>
             <el-button>top</el-button>
           </template>
         </Popover>
-        <Popover class="box-item" :trigger="trigger" title="Title" content="Top Right" placement="top-end">
+        <Popover
+          class="box-item"
+          :darkMode="theme === 'dark'"
+          :trigger="trigger"
+          title="Title"
+          content="Top End"
+          placement="top-end"
+        >
           <template #reference>
             <el-button>top-end</el-button>
           </template>
@@ -27,9 +45,10 @@
       <div class="row">
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
-          content="Left Top"
+          content="Left Start"
           placement="left-start"
         >
           <template #reference>
@@ -38,6 +57,7 @@
         </Popover>
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
           content="Right Top"
@@ -49,13 +69,21 @@
         </Popover>
       </div>
       <div class="row">
-        <Popover class="box-item" :trigger="trigger" title="Title" content="Left Center" placement="left">
+        <Popover
+          class="box-item"
+          :darkMode="theme === 'dark'"
+          :trigger="trigger"
+          title="Title"
+          content="Left Center"
+          placement="left"
+        >
           <template #reference>
             <el-button class="mt-3 mb-3">left</el-button>
           </template>
         </Popover>
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
           content="Right Center"
@@ -69,9 +97,10 @@
       <div class="row">
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
-          content="Left Bottom"
+          content="Left End"
           placement="left-end"
         >
           <template #reference>
@@ -80,9 +109,10 @@
         </Popover>
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
-          content="Right Bottom"
+          content="Right End"
           placement="right-end"
         >
           <template #reference>
@@ -93,15 +123,17 @@
       <div class="row center">
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
-          content="Bottom Left"
+          content="Bottom Start"
           placement="bottom-start"
         >
           <template #reference> <el-button>bottom-start</el-button></template>
         </Popover>
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
           content="Bottom Center"
@@ -111,9 +143,10 @@
         </Popover>
         <Popover
           class="box-item"
+          :darkMode="theme === 'dark'"
           :trigger="trigger"
           title="Title"
-          content="Bottom Right"
+          content="Bottom End"
           placement="bottom-end"
         >
           <template #reference>
@@ -144,6 +177,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import Popover from "../../package/popover.vue";
+import { ElMessage } from "element-plus";
 const trigger = ref<"click" | "hover">("click");
 const theme = ref("default");
 watch(
@@ -152,6 +186,12 @@ watch(
     document.body.className = theme.value;
   }
 );
+const handleOpen = () => {
+  ElMessage.success("open");
+};
+const handleClose = () => {
+  ElMessage.info("close");
+};
 </script>
 
 <style lang="scss">
@@ -161,8 +201,6 @@ watch(
 }
 body {
   font-size: 14px;
-}
-.popover-base-box {
 }
 .popover-base-box {
   width: 600px;
@@ -266,12 +304,12 @@ body {
   --el-fill-color-blank: transparent;
   --el-mask-color: rgba(0, 0, 0, 0.8);
   --el-mask-color-extra-light: rgba(0, 0, 0, 0.3);
-  .popover {
-    --popover-title-color: #ffffff;
-    --popover-content-color: #cccccc;
-    --popover-background-color: #1d1e1f;
-    --popover-border-color: #414243;
-    --popover-shadow-color: rgba(0, 0, 0, 0.12);
-  }
+  // .popover {
+  //   --popover-title-color: #ffffff;
+  //   --popover-content-color: #cccccc;
+  //   --popover-background-color: #1d1e1f;
+  //   --popover-border-color: #414243;
+  //   --popover-shadow-color: rgba(0, 0, 0, 0.12);
+  // }
 }
 </style>
