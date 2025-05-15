@@ -173,7 +173,7 @@
     </div>
     <div class="markdown">
       <h3>基本使用 Base Usage</h3>
-      <Popover title="Title" content="Top Start" placement="top-start">
+      <Popover title="Title" content="Top Start" :darkMode="theme === 'dark'" placement="top-start">
         <template #reference>
           <el-button>top-start</el-button>
         </template>
@@ -182,7 +182,7 @@
     </div>
     <div class="markdown">
       <h3>内容插槽 Content Slot</h3>
-      <Popover title="Title" placement="top-start" @open="handleOpen" @close="handleClose">
+      <Popover title="Title" placement="top-start" :darkMode="theme === 'dark'" @open="handleOpen" @close="handleClose">
         <template #reference>
           <el-button>top-start</el-button>
         </template>
@@ -357,5 +357,14 @@ body {
   //   --popover-border-color: #414243;
   //   --popover-shadow-color: rgba(0, 0, 0, 0.12);
   // }
+  .md-editor article.default-theme {
+    --default-theme-table-stripe-color: #1d1e1f;
+    --md-theme-color-hover: #2c2d2e;
+    --md-theme-border-color: #414243;
+    --md-theme-color: #ffffff;
+  }
+  .markdown h3 {
+    color: #ffffff;
+  }
 }
 </style>
