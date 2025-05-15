@@ -171,12 +171,46 @@
         </el-form-item>
       </el-form>
     </div>
+    <div class="markdown">
+      <h3>基本使用 Base Usage</h3>
+      <Popover title="Title" content="Top Start" placement="top-start">
+        <template #reference>
+          <el-button>top-start</el-button>
+        </template>
+      </Popover>
+      <MdEditor v-model="DefaultMd" previewOnly />
+    </div>
+    <div class="markdown">
+      <h3>内容插槽 Content Slot</h3>
+      <Popover title="Title" placement="top-start" @open="handleOpen" @close="handleClose">
+        <template #reference>
+          <el-button>top-start</el-button>
+        </template>
+        <div>content</div>
+      </Popover>
+      <MdEditor v-model="ContentMd" previewOnly />
+    </div>
+    <div class="markdown">
+      <h3>暗黑模式 Dark Model</h3>
+      <Popover title="Title" content="Top Start" placement="top-start" darkMode>
+        <template #reference>
+          <el-button>top-start</el-button>
+        </template>
+      </Popover>
+      <MdEditor v-model="DarkMd" previewOnly />
+      <MdEditor v-model="READMEMd" previewOnly />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import DefaultMd from "./markdown/default.md?raw";
+import ContentMd from "./markdown/content.md?raw";
+import DarkMd from "./markdown/dark.md?raw";
+import READMEMd from "./markdown/README.md?raw";
 import { ref, watch } from "vue";
-import Popover from "../../package/popover.vue";
+import Popover from "vue3-popover";
+import "vue3-popover/dist/vue3-popover.css";
 import { ElMessage } from "element-plus";
 const trigger = ref<"click" | "hover">("click");
 const theme = ref("default");
@@ -195,6 +229,18 @@ const handleClose = () => {
 </script>
 
 <style lang="scss">
+.md-editor-previewOnly,
+.md-editor-previewOnly .md-editor-content {
+  background-color: transparent;
+}
+.md-editor-content .md-editor-preview-wrapper {
+  padding: 0;
+}
+.markdown {
+  padding-top: 20px;
+  width: 900px;
+  margin: 0px auto;
+}
 .popover-base-form {
   width: 600px;
   margin: 0px auto;

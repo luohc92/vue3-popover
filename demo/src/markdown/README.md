@@ -1,29 +1,3 @@
-# vue3-popover
-
-## a popover for vue3.x 一款 vue3.x 的弹出框
-
-## Basic usage
-
-```html
-npm i vue3-popover
-```
-
-```
-<template>
-   <Popover
-      title="Title"
-      content="Top Start"
-      placement="top-start"
-    >
-      <template #reference>
-        <el-button>top-start</el-button>
-      </template>
-  </Popover>
-</template>
-```
-
-## API
-
 ### 属性 Attributes
 
 | Name        | Description                                                            | Type                                           | Default |
@@ -55,18 +29,6 @@ npm i vue3-popover
 | ----- | ----------------------------------------------- | ------------ |
 | open  | 弹窗显示时触发<br />triggers when popover shows | `() => void` |
 | close | 弹窗关闭时触发<br />triggers when popover hides | `() => void` |
-
-### 样式变量 Style variable
-
-| Name                       | Description         |
-| -------------------------- | ------------------- |
-| --popover-title-color      | #333333             |
-| --popover-content-color    | #666666             |
-| --popover-background-color | #ffffff             |
-| --popover-border-color     | #e4e7ed             |
-| --popover-shadow-color     | rgba(0, 0, 0, 0.12) |
-| --border-radius            | 5px                 |
-| --popover-content-padding  | 10px                |
 
 ### 样式变量 Style variable
 

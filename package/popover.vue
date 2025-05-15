@@ -10,9 +10,11 @@
       <slot name="reference"></slot>
     </span>
     <Teleport :to="appendTo">
-      <Transition name="fade">
+      <Transition name="popoverfade">
         <div
           class="popover"
+          @mouseleave="mouseleavePopover"
+          @mouseenter="mouseenterPopover"
           :class="[popperClass, { 'dark-mode': darkMode }]"
           v-if="visible"
           :style="[{ zIndex: zIndex, width: isNumber(props.width) ? props.width + 'px' : props.width }, popoverStyle]"
@@ -33,46 +35,44 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, nextTick, watch, ref } from "vue";
-
-const props = withDefaults(
-  defineProps<{
-    placement:
-      | "top"
-      | "top-start"
-      | "top-end"
-      | "bottom"
-      | "bottom-start"
-      | "bottom-end"
-      | "left"
-      | "left-start"
-      | "left-end"
-      | "right"
-      | "right-start"
-      | "right-end";
-    width?: number | string;
-    title?: string;
-    content?: string;
-    zIndex?: number;
-    trigger?: "click" | "hover";
-    popperClass?: string;
-    appendTo?: string;
-    darkMode?: boolean;
-    disabled?: boolean;
-  }>(),
-  {
-    placement: "bottom",
-    width: 150,
-    title: "",
-    content: "",
-    zIndex: 1999,
-    trigger: "click",
-    popperClass: "",
-    appendTo: "body",
-    darkMode: false,
-    disabled: false,
-  }
-);
+import { computed, onMounted, onUnmounted, nextTick, watch, ref, PropType } from "vue";
+const props = defineProps({
+  placement: String as PropType<
+    | "top"
+    | "top-start"
+    | "top-end"
+    | "bottom"
+    | "bottom-start"
+    | "bottom-end"
+    | "left"
+    | "left-start"
+    | "left-end"
+    | "right"
+    | "right-start"
+    | "right-end"
+  >,
+  width: {
+    type: [String, Number],
+    default: 200,
+  },
+  title: String,
+  content: String,
+  zIndex: {
+    type: Number,
+    default: 1999,
+  },
+  trigger: {
+    type: String as PropType<"click" | "hover">,
+    default: "click",
+  },
+  popperClass: String,
+  appendTo: {
+    type: String,
+    default: "body",
+  },
+  darkMode: Boolean,
+  disabled: Boolean,
+});
 const isNumber = (val: number | string) => {
   return typeof val === "number";
 };
@@ -83,6 +83,7 @@ const open = () => {
 };
 const close = () => {
   visible.value = false;
+  mouseIsInPopover.value = false;
   emits("close");
 };
 const allPlacement = [
@@ -124,20 +125,45 @@ const togglePopover = () => {
     open();
   }
 };
+const closePopoverTimer = ref();
 const mouseenter = () => {
   if (props.trigger !== "hover" || props.disabled) return;
+  if (closePopoverTimer.value) clearTimeout(closePopoverTimer.value);
+  mouseIsInPopover.value = false;
   open();
 };
+const mouseIsInPopover = ref(false);
 const mouseleave = () => {
   if (props.trigger !== "hover" || props.disabled) return;
-  close();
+  if (closePopoverTimer.value) clearTimeout(closePopoverTimer.value);
+  closePopoverTimer.value = setTimeout(() => {
+    if (mouseIsInPopover.value) {
+      return;
+    }
+    close();
+  }, 300);
+};
+const mouseleavePopover = () => {
+  if (props.trigger !== "hover" || props.disabled) return;
+  mouseIsInPopover.value = false;
+  if (closePopoverTimer.value) clearTimeout(closePopoverTimer.value);
+  closePopoverTimer.value = setTimeout(() => {
+    if (mouseIsInPopover.value) {
+      return;
+    }
+    close();
+  }, 300);
+};
+const mouseenterPopover = () => {
+  mouseIsInPopover.value = true;
+  if (closePopoverTimer.value) clearTimeout(closePopoverTimer.value);
 };
 const popoverArrowStyle = computed(() => {
   if (!triggerRef.value || !popoverRect.value) return {};
   const triggerRect = triggerRef.value.getBoundingClientRect();
   let left = 0;
   let top = 0;
-  let placement = props.placement;
+  let placement = props.placement || "bottom";
   if (!allPlacement.includes(placement)) {
     placement = "bottom";
   }
@@ -201,7 +227,7 @@ const popoverArrowStyle = computed(() => {
 });
 const popoverStyle = computed(() => {
   if (!triggerRef.value || !popoverRect.value) return {} as any;
-  let placement = props.placement;
+  let placement = props.placement || "bottom";
   if (!allPlacement.includes(placement)) {
     placement = "bottom";
   }
@@ -211,69 +237,75 @@ const popoverStyle = computed(() => {
 
   switch (placement) {
     case "left":
-      top = triggerRect.top - popoverRect.value.height / 2 + triggerRect.height / 2;
-      left = triggerRect.left - popoverRect.value.width - 10;
+      top = triggerRect.top - popoverRect.value.height / 2 + triggerRect.height / 2 + window.scrollY;
+      left = triggerRect.left - popoverRect.value.width - 10 + window.scrollX;
       break;
     case "left-start":
-      top = triggerRect.top;
-      left = triggerRect.left - popoverRect.value.width - 10;
+      top = triggerRect.top + window.scrollY;
+      left = triggerRect.left - popoverRect.value.width - 10 + window.scrollX;
       break;
     case "left-end":
-      top = triggerRect.top - popoverRect.value.height + triggerRect.height;
-      left = triggerRect.left - popoverRect.value.width - 10;
+      top = triggerRect.top - popoverRect.value.height + triggerRect.height + window.scrollY;
+      left = triggerRect.left - popoverRect.value.width - 10 + window.scrollX;
       break;
     case "right":
-      top = triggerRect.top - popoverRect.value.height / 2 + triggerRect.height / 2;
-      left = triggerRect.left + triggerRect.width + 10;
+      top = triggerRect.top - popoverRect.value.height / 2 + triggerRect.height / 2 + window.scrollY;
+      left = triggerRect.left + triggerRect.width + 10 + window.scrollX;
       break;
     case "right-start":
-      top = triggerRect.top;
-      left = triggerRect.left + triggerRect.width + 10;
+      top = triggerRect.top + window.scrollY;
+      left = triggerRect.left + triggerRect.width + 10 + window.scrollX;
       break;
     case "right-end":
-      top = triggerRect.top - popoverRect.value.height + triggerRect.height;
-      left = triggerRect.left + triggerRect.width + 10;
+      top = triggerRect.top - popoverRect.value.height + triggerRect.height + window.scrollY;
+      left = triggerRect.left + triggerRect.width + 10 + window.scrollX;
       break;
     case "top":
-      top = triggerRect.top - popoverRect.value.height - 10;
-      left = triggerRect.left - popoverRect.value.width / 2 + triggerRect.width / 2;
+      top = triggerRect.top - popoverRect.value.height - 10 + window.scrollY;
+      left = triggerRect.left - popoverRect.value.width / 2 + triggerRect.width / 2 + window.scrollX;
       break;
     case "top-start":
-      top = triggerRect.top - popoverRect.value.height - 10;
-      left = triggerRect.left;
+      top = triggerRect.top - popoverRect.value.height - 10 + window.scrollY;
+      left = triggerRect.left + window.scrollX;
       break;
     case "top-end":
-      top = triggerRect.top - popoverRect.value.height - 10;
-      left = triggerRect.left + triggerRect.width - popoverRect.value.width;
+      top = triggerRect.top - popoverRect.value.height - 10 + window.scrollY;
+      left = triggerRect.left + triggerRect.width - popoverRect.value.width + window.scrollX;
       break;
     case "bottom":
-      top = triggerRect.top + triggerRect.height + 10;
-      left = triggerRect.left - popoverRect.value.width / 2 + triggerRect.width / 2;
+      top = triggerRect.top + triggerRect.height + 10 + window.scrollY;
+      left = triggerRect.left - popoverRect.value.width / 2 + triggerRect.width / 2 + window.scrollX;
       break;
     case "bottom-start":
-      top = triggerRect.top + triggerRect.height + 10;
-      left = triggerRect.left;
+      top = triggerRect.top + triggerRect.height + 10 + window.scrollY;
+      left = triggerRect.left + window.scrollX;
       break;
     case "bottom-end":
-      top = triggerRect.top + triggerRect.height + 10;
-      left = triggerRect.left + triggerRect.width - popoverRect.value.width;
+      top = triggerRect.top + triggerRect.height + 10 + window.scrollY;
+      left = triggerRect.left + triggerRect.width - popoverRect.value.width + window.scrollX;
       break;
   }
   return { position: "absolute", top: `${top}px`, left: `${left}px` };
 });
-
+const updatePopoverRect = () => {
+  if (popoverRef.value) {
+    popoverRect.value = popoverRef.value.getBoundingClientRect();
+  }
+};
 const handleClickOutside = (event: Event) => {
   if (popoverRef.value && !popoverRef.value.contains(event.target) && !triggerRef.value.contains(event.target)) {
     close();
   }
 };
-
 onMounted(() => {
+  window.addEventListener("resize", updatePopoverRect);
   window.addEventListener("click", handleClickOutside);
 });
 
 onUnmounted(() => {
-  close();
+  visible.value = false;
+  mouseIsInPopover.value = false;
+  window.removeEventListener("resize", updatePopoverRect);
   window.removeEventListener("click", handleClickOutside);
 });
 </script>
@@ -282,31 +314,57 @@ onUnmounted(() => {
 span.popover-trigger {
   display: inline-block;
 }
+.popoverfade-enter-active,
+.popoverfade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.popoverfade-enter-from,
+.popoverfade-leave-to {
+  opacity: 0;
+}
+.popoverfade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.popoverfade-leave-to {
+  opacity: 0;
+}
 .popover {
   --popover-title-color: #333333;
   --popover-content-color: #666666;
   --popover-background-color: #ffffff;
   --popover-border-color: #e4e7ed;
   --popover-shadow-color: rgba(0, 0, 0, 0.12);
+  --border-radius: 5px;
+  --popover-content-padding: 10px;
+
+  --popover-dark-title-color: #ffffff;
+  --popover-dark-content-color: #cccccc;
+  --popover-dark-background-color: #1d1e1f;
+  --popover-dark-border-color: #414243;
+  --popover-dark-shadow-color: rgba(0, 0, 0, 0.12);
+
   &.dark-mode {
-    --popover-title-color: #ffffff;
-    --popover-content-color: #cccccc;
-    --popover-background-color: #1d1e1f;
-    --popover-border-color: #414243;
-    --popover-shadow-color: rgba(0, 0, 0, 0.12);
+    --popover-title-color: var(--popover-dark-title-color);
+    --popover-content-color: var(--popover-dark-content-color);
+    --popover-background-color: var(--popover-dark-background-color);
+    --popover-border-color: var(--popover-dark-border-color);
+    --popover-shadow-color: var(--popover-dark-shadow-color);
   }
+
   .popover-content {
     background: var(--popover-background-color);
-    padding: 10px;
-    border-radius: 5px;
+    padding: var(--popover-content-padding);
+    border-radius: var(--border-radius);
     box-shadow: 0px 0px 12px var(--popover-shadow-color);
     border: 1px solid var(--popover-border-color);
   }
+
   .popover-arrow {
     position: absolute;
     width: 10px;
     height: 10px;
     z-index: 1;
+
     &:before {
       position: absolute;
       width: 10px;
@@ -320,6 +378,7 @@ span.popover-trigger {
       border: 1px solid var(--popover-border-color);
       background: var(--popover-background-color);
     }
+
     &.popover-arrow__left,
     &.popover-arrow__left-start,
     &.popover-arrow__left-end {
@@ -327,6 +386,7 @@ span.popover-trigger {
         transform: rotate(135deg);
       }
     }
+
     &.popover-arrow__right,
     &.popover-arrow__right-start,
     &.popover-arrow__right-end {
@@ -334,6 +394,7 @@ span.popover-trigger {
         transform: rotate(-45deg);
       }
     }
+
     &.popover-arrow__top,
     &.popover-arrow__top-start,
     &.popover-arrow__top-end {
@@ -342,10 +403,12 @@ span.popover-trigger {
       }
     }
   }
+
   .popover-title {
     color: var(--popover-title-color);
     margin-bottom: 10px;
   }
+
   .popover-content {
     color: var(--popover-content-color);
   }

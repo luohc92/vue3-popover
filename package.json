@@ -5,7 +5,7 @@
   "license": "MIT",
   "author": "luohc92",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.1.2",
   "type": "module",
   "files": [
     "package.json",
@@ -13,13 +13,16 @@
     "LICENSE",
     "dist"
   ],
-  "module": "./dist/vue3-popover.es.ts",
-  "main": "./dist/vue3-popover.umd.ts",
+  "module": "./dist/vue3-popover.es.js",
+  "main": "./dist/vue3-popover.umd.js",
   "exports": {
     ".": {
-      "import": "./dist/vue3-popover.es.ts",
-      "require": "./dist/vue3-popover.umd.ts"
-    }
+      "import": "./dist/vue3-popover.es.js",
+      "require": "./dist/vue3-popover.umd.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./style.css": "./dist/vue3-popover.css",
+    "./dist/vue3-popover.css": "./dist/vue3-popover.css"
   },
   "types": "./dist/index.d.ts",
   "publishConfig": {

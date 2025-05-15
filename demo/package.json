@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "vue3-popover-demo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,8 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kangc/v-md-editor": "^2.3.15",
     "element-plus": "^2.9.7",
-    "vue": "^3.2.37"
+    "md-editor-v3": "^2.4.1",
+    "vue": "^3.2.37",
+    "vue3-popover": "^1.1.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.0",
