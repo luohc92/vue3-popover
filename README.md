@@ -20,6 +20,11 @@ npm i vue3-popover
       </template>
   </Popover>
 </template>
+
+<script setup lang="ts">
+import Popover from "vue3-popover";
+import "vue3-popover/dist/vue3-popover.css";
+</script>
 ```
 
 ## API
