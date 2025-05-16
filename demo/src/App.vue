@@ -210,7 +210,7 @@ import DarkMd from "./markdown/dark.md?raw";
 import READMEMd from "./markdown/README.md?raw";
 import { ref, watch } from "vue";
 import Popover from "vue3-popover";
-import "vue3-popover/dist/vue3-popover.css";
+import "vue3-popover/dist/style.css";
 import { ElMessage } from "element-plus";
 const trigger = ref<"click" | "hover">("click");
 const theme = ref("default");

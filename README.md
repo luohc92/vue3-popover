@@ -23,7 +23,7 @@ npm i vue3-popover
 
 <script setup lang="ts">
 import Popover from "vue3-popover";
-import "vue3-popover/dist/vue3-popover.css";
+import "vue3-popover/dist/style.css";
 </script>
 ```
 
