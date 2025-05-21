@@ -7,7 +7,20 @@
 ```html
 npm i vue3-popover
 ```
-
+### Global Import 按需引入
+```
+import Popover from "vue3-popover";
+import "vue3-popover/style.css";
+const app = createApp(App);
+app.use(Popover);
+```
+### On-demand Import 按需引入
+```
+<script setup lang="ts">
+import { Popover } from "vue3-popover";
+import "vue3-popover/style.css";
+</script>
+```
 ```
 <template>
    <Popover
@@ -20,11 +33,6 @@ npm i vue3-popover
       </template>
   </Popover>
 </template>
-
-<script setup lang="ts">
-import Popover from "vue3-popover";
-import "vue3-popover/dist/style.css";
-</script>
 ```
 
 ## API
@@ -63,19 +71,7 @@ import "vue3-popover/dist/style.css";
 
 ### 样式变量 Style variable
 
-| Name                       | Description         |
-| -------------------------- | ------------------- |
-| --popover-title-color      | #333333             |
-| --popover-content-color    | #666666             |
-| --popover-background-color | #ffffff             |
-| --popover-border-color     | #e4e7ed             |
-| --popover-shadow-color     | rgba(0, 0, 0, 0.12) |
-| --border-radius            | 5px                 |
-| --popover-content-padding  | 10px                |
-
-### 样式变量 Style variable
-
-| Name                            | Default         |
+| Name                            | Default             |
 | ------------------------------- | ------------------- |
 | --popover-title-color           | #333333             |
 | --popover-content-color         | #666666             |
@@ -89,3 +85,4 @@ import "vue3-popover/dist/style.css";
 | --popover-dark-background-color | #1d1e1f             |
 | --popover-dark-border-color     | #414243             |
 | --popover-dark-shadow-color     | rgba(0, 0, 0, 0.12) |
+```

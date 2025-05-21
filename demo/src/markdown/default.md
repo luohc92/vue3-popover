@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import Popover from "vue3-popover";
-import "vue3-popover/dist/style.css";
+import { Popover } from "vue3-popover";
+import "vue3-popover/style.css";
 </script>
 ```
