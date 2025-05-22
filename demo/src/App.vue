@@ -208,6 +208,7 @@ import DefaultMd from "./markdown/default.md?raw";
 import ContentMd from "./markdown/content.md?raw";
 import DarkMd from "./markdown/dark.md?raw";
 import READMEMd from "./markdown/README.md?raw";
+import { Popover } from "vue3-popover";
 import { ref, watch } from "vue";
 import { ElMessage } from "element-plus";
 const trigger = ref<"click" | "hover">("click");
@@ -227,6 +228,10 @@ const handleClose = () => {
 </script>
 
 <style lang="scss">
+#app{
+  height: 100vh;
+  overflow: auto;
+}
 .md-editor-previewOnly,
 .md-editor-previewOnly .md-editor-content {
   background-color: transparent;

@@ -1,15 +1,25 @@
 <template>
   <div class="popover-wrapper">
-    <span class="popover-trigger" ref="triggerRef" @click="togglePopover" @mouseenter="mouseenter"
-      @mouseleave="mouseleave">
+    <span
+      class="popover-trigger"
+      ref="triggerRef"
+      @click="togglePopover"
+      @mouseenter="mouseenter"
+      @mouseleave="mouseleave"
+    >
       <slot name="reference"></slot>
     </span>
     <Teleport :to="appendTo">
       <Transition name="popoverfade">
-        <div class="popover" @mouseleave="mouseleavePopover" @mouseenter="mouseenterPopover"
-          :class="[popperClass, { 'dark-mode': darkMode }]" v-if="visible"
+        <div
+          class="popover"
+          @mouseleave="mouseleavePopover"
+          @mouseenter="mouseenterPopover"
+          :class="[popperClass, { 'dark-mode': darkMode }]"
+          v-if="visible"
           :style="[{ zIndex: zIndex, width: isNumber(props.width) ? props.width + 'px' : props.width }, popoverStyle]"
-          ref="popoverRef">
+          ref="popoverRef"
+        >
           <div class="popover-arrow" :class="'popover-arrow__' + currentPlacement" :style="popoverArrowStyle"></div>
           <div class="popover-content">
             <div v-if="title" class="popover-title">{{ title }}</div>
@@ -45,6 +55,10 @@ const props = defineProps({
     type: [String, Number],
     default: 200,
   },
+  offset: {
+    type: Number,
+    default: 10,
+  },
   title: String,
   content: String,
   zIndex: {
@@ -74,7 +88,7 @@ const open = () => {
 const close = () => {
   visible.value = false;
   mouseIsInPopover.value = false;
-  currentPlacement.value = props.placement || 'bottom';
+  currentPlacement.value = props.placement || "bottom";
   emits("close");
 };
 const allPlacement = [
@@ -94,8 +108,9 @@ const allPlacement = [
 const popoverRef = ref();
 const triggerRef = ref();
 const popoverRect = ref();
+const triggerRect = ref();
 const observer = ref<MutationObserver | null>(null);
-const currentPlacement = ref(props.placement || 'bottom');
+const currentPlacement = ref(props.placement || "bottom");
 const emits = defineEmits(["open", "close"]);
 
 const checkPosition = () => {
@@ -113,7 +128,7 @@ const checkPosition = () => {
 
   // 检查水平方向的边界
   const checkHorizontalBoundary = (placement: typeof props.placement): typeof props.placement => {
-    if (!placement) return 'bottom';
+    if (!placement) return "bottom";
     // 检查是否同时超出多个边界
     const isTopOverflow = triggerRect.top < popoverRect.value.height;
     const isRightOverflow = triggerRect.right + popoverRect.value.width > viewportWidth;
@@ -121,57 +136,57 @@ const checkPosition = () => {
     const isLeftOverflow = triggerRect.left < 0;
 
     switch (placement) {
-      case 'top':
-        if (isTopOverflow) return 'bottom';
-        if (isLeftOverflow) return 'top-end';
-        if (isRightOverflow) return 'top-start';
+      case "top":
+        if (isTopOverflow) return "bottom";
+        if (isLeftOverflow) return "top-end";
+        if (isRightOverflow) return "top-start";
         break;
-      case 'top-start':
-        if (isTopOverflow) return 'bottom-start';
-        if (isLeftOverflow) return 'top-end';
+      case "top-start":
+        if (isTopOverflow) return "bottom-start";
+        if (isLeftOverflow) return "top-end";
         break;
-      case 'top-end':
-        if (isTopOverflow) return 'bottom-end';
-        if (isRightOverflow) return 'top-start';
+      case "top-end":
+        if (isTopOverflow) return "bottom-end";
+        if (isRightOverflow) return "top-start";
         break;
-      case 'bottom':
-        if (isBottomOverflow) return 'top';
-        if (isLeftOverflow) return 'bottom-end';
-        if (isRightOverflow) return 'bottom-start';
+      case "bottom":
+        if (isBottomOverflow) return "top";
+        if (isLeftOverflow) return "bottom-end";
+        if (isRightOverflow) return "bottom-start";
         break;
-      case 'bottom-start':
-        if (isBottomOverflow) return 'top-start';
-        if (isLeftOverflow || isRightOverflow) return 'bottom-end';
+      case "bottom-start":
+        if (isBottomOverflow) return "top-start";
+        if (isLeftOverflow || isRightOverflow) return "bottom-end";
         break;
-      case 'bottom-end':
-        if (isBottomOverflow) return 'top-end';
-        if (isLeftOverflow) return 'bottom-start';
+      case "bottom-end":
+        if (isBottomOverflow) return "top-end";
+        if (isLeftOverflow) return "bottom-start";
         break;
-      case 'left':
-        if (isLeftOverflow) return 'right';
-        if (isTopOverflow) return 'left-start';
-        if (isBottomOverflow) return 'left-end';
+      case "left":
+        if (isLeftOverflow) return "right";
+        if (isTopOverflow) return "left-start";
+        if (isBottomOverflow) return "left-end";
         break;
-      case 'left-start':
-        if (isLeftOverflow) return 'right-start';
-        if (isBottomOverflow) return 'top-start';
+      case "left-start":
+        if (isLeftOverflow) return "right-start";
+        if (isBottomOverflow) return "top-start";
         break;
-      case 'left-end':
-        if (isLeftOverflow) return 'right-end';
-        if (isTopOverflow) return 'left-start';
+      case "left-end":
+        if (isLeftOverflow) return "right-end";
+        if (isTopOverflow) return "left-start";
         break;
-      case 'right':
-        if (isRightOverflow) return 'left';
-        if (isTopOverflow) return 'right-start';
-        if (isBottomOverflow) return 'right-end';
+      case "right":
+        if (isRightOverflow) return "left";
+        if (isTopOverflow) return "right-start";
+        if (isBottomOverflow) return "right-end";
         break;
-      case 'right-start':
-        if (isRightOverflow) return 'left-start';
-        if (isBottomOverflow) return 'top-start';
+      case "right-start":
+        if (isRightOverflow) return "left-start";
+        if (isBottomOverflow) return "top-start";
         break;
-      case 'right-end':
-        if (isRightOverflow) return 'left-end';
-        if (isTopOverflow) return 'right-start';
+      case "right-end":
+        if (isRightOverflow) return "left-end";
+        if (isTopOverflow) return "right-start";
         break;
     }
     return placement;
@@ -179,77 +194,121 @@ const checkPosition = () => {
 
   // 根据当前placement检查是否需要切换
   switch (currentPlacement.value) {
-    case 'top':
-      if (top < 0) currentPlacement.value = 'bottom';
+    case "top":
+      if (top < 0) currentPlacement.value = "bottom";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'bottom':
-      if (bottom + popoverRect.value.height > viewportHeight) currentPlacement.value = 'top';
+    case "bottom":
+      if (bottom + popoverRect.value.height > viewportHeight) currentPlacement.value = "top";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'left':
+    case "left":
       // 先检查边界情况
       const leftNewPlacement = checkHorizontalBoundary(currentPlacement.value);
       if (leftNewPlacement !== currentPlacement.value) {
         currentPlacement.value = leftNewPlacement;
       } else if (left < 0) {
-        currentPlacement.value = 'right';
+        currentPlacement.value = "right";
       }
       break;
-    case 'right':
+    case "right":
       // 先检查边界情况
       const rightNewPlacement = checkHorizontalBoundary(currentPlacement.value);
       if (rightNewPlacement !== currentPlacement.value) {
         currentPlacement.value = rightNewPlacement;
       } else if (right + popoverRect.value.width > viewportWidth) {
-        currentPlacement.value = 'left';
+        currentPlacement.value = "left";
       }
       break;
-    case 'top-start':
-      if (top < 0) currentPlacement.value = 'bottom-start';
+    case "top-start":
+      if (top < 0) currentPlacement.value = "bottom-start";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'top-end':
-      if (top < 0) currentPlacement.value = 'bottom-end';
+    case "top-end":
+      if (top < 0) currentPlacement.value = "bottom-end";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'bottom-start':
-      if (bottom + popoverRect.value.height > viewportHeight) currentPlacement.value = 'top-start';
+    case "bottom-start":
+      if (bottom + popoverRect.value.height > viewportHeight) currentPlacement.value = "top-start";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'bottom-end':
-      if (bottom + popoverRect.value.height > viewportHeight) currentPlacement.value = 'top-end';
+    case "bottom-end":
+      if (bottom + popoverRect.value.height > viewportHeight) currentPlacement.value = "top-end";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'left-start':
-      if (left < 0) currentPlacement.value = 'right-start';
+    case "left-start":
+      if (left < 0) currentPlacement.value = "right-start";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'left-end':
-      if (left < 0) currentPlacement.value = 'right-end';
+    case "left-end":
+      if (left < 0) currentPlacement.value = "right-end";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'right-start':
-      if (right + popoverRect.value.width > viewportWidth) currentPlacement.value = 'left-start';
+    case "right-start":
+      if (right + popoverRect.value.width > viewportWidth) currentPlacement.value = "left-start";
       else currentPlacement.value = checkHorizontalBoundary(currentPlacement.value);
       break;
-    case 'right-end':
+    case "right-end":
       // 先检查边界情况
       const rightEndNewPlacement = checkHorizontalBoundary(currentPlacement.value);
       if (rightEndNewPlacement !== currentPlacement.value) {
         currentPlacement.value = rightEndNewPlacement;
       } else if (right + popoverRect.value.width > viewportWidth) {
-        currentPlacement.value = 'left-end';
+        currentPlacement.value = "left-end";
       }
       break;
   }
 };
 
 const updatePosition = () => {
-  if (popoverRef.value) {
-    popoverRect.value = popoverRef.value.getBoundingClientRect();
-    checkPosition();
+  triggerRect.value = triggerRef.value.getBoundingClientRect();
+  if (visible.value) {
+    if (popoverRef.value) {
+      popoverRect.value = popoverRef.value.getBoundingClientRect();
+      checkPosition();
+    }
   }
+};
+
+// 添加滚动事件处理函数
+const handleScroll = () => {
+  updatePosition();
+};
+
+// 获取所有可滚动的父元素
+const getScrollParents = (element: HTMLElement): HTMLElement[] => {
+  const parents: HTMLElement[] = [];
+  let parent = element.parentElement;
+
+  while (parent) {
+    const { overflow, overflowX, overflowY } = window.getComputedStyle(parent);
+    if (/(auto|scroll|overlay)/.test(overflow + overflowX + overflowY)) {
+      parents.push(parent);
+    }
+    parent = parent.parentElement;
+  }
+
+  return parents;
+};
+
+// 添加滚动监听器
+const addScrollListeners = () => {
+  if (!triggerRef.value) return;
+
+  const scrollParents = getScrollParents(triggerRef.value);
+  scrollParents.forEach((parent) => {
+    parent.addEventListener("scroll", handleScroll, true);
+  });
+};
+
+// 移除滚动监听器
+const removeScrollListeners = () => {
+  if (!triggerRef.value) return;
+
+  const scrollParents = getScrollParents(triggerRef.value);
+  scrollParents.forEach((parent) => {
+    parent.removeEventListener("scroll", handleScroll, true);
+  });
 };
 
 watch(
@@ -268,6 +327,7 @@ watch(
     if (!val) return;
     nextTick(() => {
       updatePosition();
+      addScrollListeners();
     });
   }
 );
@@ -315,12 +375,11 @@ const mouseenterPopover = () => {
 };
 const popoverArrowStyle = computed(() => {
   if (!triggerRef.value || !popoverRect.value) return {};
-  const triggerRect = triggerRef.value.getBoundingClientRect();
   let left = 0;
   let top = 0;
   let placement = currentPlacement.value;
   if (!allPlacement.includes(placement)) {
-    placement = 'bottom';
+    placement = "bottom";
   }
   switch (placement) {
     case "left":
@@ -329,11 +388,11 @@ const popoverArrowStyle = computed(() => {
       break;
     case "left-start":
       left = popoverRect.value.width - 5;
-      top = triggerRect.height / 2 - 5;
+      top = triggerRect.value.height / 2 - 5;
       break;
     case "left-end":
       left = popoverRect.value.width - 5;
-      top = popoverRect.value.height - triggerRect.height / 2 - 5;
+      top = popoverRect.value.height - triggerRect.value.height / 2 - 5;
       break;
     case "right":
       left = -5;
@@ -341,22 +400,22 @@ const popoverArrowStyle = computed(() => {
       break;
     case "right-start":
       left = -5;
-      top = triggerRect.height / 2 - 5;
+      top = triggerRect.value.height / 2 - 5;
       break;
     case "right-end":
       left = -5;
-      top = popoverRect.value.height - triggerRect.height / 2 - 5;
+      top = popoverRect.value.height - triggerRect.value.height / 2 - 5;
       break;
     case "top":
       left = popoverRect.value.width / 2 - 5;
       top = popoverRect.value.height - 5;
       break;
     case "top-start":
-      left = triggerRect.width / 2 - 5;
+      left = triggerRect.value.width / 2 - 5;
       top = popoverRect.value.height - 5;
       break;
     case "top-end":
-      left = popoverRect.value.width - triggerRect.width / 2 - 5;
+      left = popoverRect.value.width - triggerRect.value.width / 2 - 5;
       top = popoverRect.value.height - 5;
       break;
     case "bottom":
@@ -364,11 +423,11 @@ const popoverArrowStyle = computed(() => {
       top = -5;
       break;
     case "bottom-start":
-      left = triggerRect.width / 2 - 5;
+      left = triggerRect.value.width / 2 - 5;
       top = -5;
       break;
     case "bottom-end":
-      left = popoverRect.value.width - triggerRect.width / 2 - 5;
+      left = popoverRect.value.width - triggerRect.value.width / 2 - 5;
       top = -5;
       break;
   }
@@ -384,65 +443,66 @@ const popoverStyle = computed(() => {
   if (!triggerRef.value || !popoverRect.value) return {} as any;
   let placement = currentPlacement.value;
   if (!allPlacement.includes(placement)) {
-    placement = 'bottom';
+    placement = "bottom";
   }
-  const triggerRect = triggerRef.value.getBoundingClientRect();
   let top = 0,
     left = 0;
-
   switch (placement) {
     case "left":
-      top = triggerRect.top - popoverRect.value.height / 2 + triggerRect.height / 2 + window.scrollY;
-      left = triggerRect.left - popoverRect.value.width - 10 + window.scrollX;
+      top = triggerRect.value.top - popoverRect.value.height / 2 + triggerRect.value.height / 2;
+      left = triggerRect.value.left - popoverRect.value.width - props.offset;
       break;
     case "left-start":
-      top = triggerRect.top + window.scrollY;
-      left = triggerRect.left - popoverRect.value.width - 10 + window.scrollX;
+      top = triggerRect.value.top;
+      left = triggerRect.value.left - popoverRect.value.width - props.offset;
       break;
     case "left-end":
-      top = triggerRect.top - popoverRect.value.height + triggerRect.height + window.scrollY;
-      left = triggerRect.left - popoverRect.value.width - 10 + window.scrollX;
+      top = triggerRect.value.top - popoverRect.value.height + triggerRect.value.height;
+      left = triggerRect.value.left - popoverRect.value.width - props.offset;
       break;
     case "right":
-      top = triggerRect.top - popoverRect.value.height / 2 + triggerRect.height / 2 + window.scrollY;
-      left = triggerRect.left + triggerRect.width + 10 + window.scrollX;
+      top = triggerRect.value.top - popoverRect.value.height / 2 + triggerRect.value.height / 2;
+      left = triggerRect.value.left + triggerRect.value.width + props.offset;
       break;
     case "right-start":
-      top = triggerRect.top + window.scrollY;
-      left = triggerRect.left + triggerRect.width + 10 + window.scrollX;
+      top = triggerRect.value.top;
+      left = triggerRect.value.left + triggerRect.value.width + props.offset;
       break;
     case "right-end":
-      top = triggerRect.top - popoverRect.value.height + triggerRect.height + window.scrollY;
-      left = triggerRect.left + triggerRect.width + 10 + window.scrollX;
+      top = triggerRect.value.top - popoverRect.value.height + triggerRect.value.height;
+      left = triggerRect.value.left + triggerRect.value.width + props.offset;
       break;
     case "top":
-      top = triggerRect.top - popoverRect.value.height - 10 + window.scrollY;
-      left = triggerRect.left - popoverRect.value.width / 2 + triggerRect.width / 2 + window.scrollX;
+      top = triggerRect.value.top - popoverRect.value.height - props.offset;
+      left = triggerRect.value.left - popoverRect.value.width / 2 + triggerRect.value.width / 2;
       break;
     case "top-start":
-      top = triggerRect.top - popoverRect.value.height - 10 + window.scrollY;
-      left = triggerRect.left + window.scrollX;
+      top = triggerRect.value.top - popoverRect.value.height - props.offset;
+      left = triggerRect.value.left;
       break;
     case "top-end":
-      top = triggerRect.top - popoverRect.value.height - 10 + window.scrollY;
-      left = triggerRect.left + triggerRect.width - popoverRect.value.width + window.scrollX;
+      top = triggerRect.value.top - popoverRect.value.height - props.offset;
+      left = triggerRect.value.left + triggerRect.value.width - popoverRect.value.width;
       break;
     case "bottom":
-      top = triggerRect.top + triggerRect.height + 10 + window.scrollY;
-      left = triggerRect.left - popoverRect.value.width / 2 + triggerRect.width / 2 + window.scrollX;
+      top = triggerRect.value.top + triggerRect.value.height + props.offset;
+      left = triggerRect.value.left - popoverRect.value.width / 2 + triggerRect.value.width / 2;
       break;
     case "bottom-start":
-      top = triggerRect.top + triggerRect.height + 10 + window.scrollY;
-      left = triggerRect.left + window.scrollX;
+      top = triggerRect.value.top + triggerRect.value.height + props.offset;
+      left = triggerRect.value.left;
       break;
     case "bottom-end":
-      top = triggerRect.top + triggerRect.height + 10 + window.scrollY;
-      left = triggerRect.left + triggerRect.width - popoverRect.value.width + window.scrollX;
+      top = triggerRect.value.top + triggerRect.value.height + props.offset;
+      left = triggerRect.value.left + triggerRect.value.width - popoverRect.value.width;
       break;
   }
-  return { position: "absolute", top: `${top}px`, left: `${left}px` };
+  return { top: `${top}px`, left: `${left}px` };
 });
-const updatePopoverRect = () => {
+const updateRect = () => {
+  if (triggerRect.value) {
+    triggerRect.value = triggerRef.value.getBoundingClientRect();
+  }
   if (popoverRef.value) {
     popoverRect.value = popoverRef.value.getBoundingClientRect();
   }
@@ -453,7 +513,7 @@ const handleClickOutside = (event: Event) => {
   }
 };
 onMounted(() => {
-  window.addEventListener("resize", updatePopoverRect);
+  window.addEventListener("resize", updateRect);
   window.addEventListener("click", handleClickOutside);
 
   if (triggerRef.value) {
@@ -466,7 +526,7 @@ onMounted(() => {
       attributes: true,
       childList: true,
       subtree: true,
-      characterData: true
+      characterData: true,
     });
   }
 });
@@ -474,8 +534,9 @@ onMounted(() => {
 onUnmounted(() => {
   visible.value = false;
   mouseIsInPopover.value = false;
-  window.removeEventListener("resize", updatePopoverRect);
+  window.removeEventListener("resize", updateRect);
   window.removeEventListener("click", handleClickOutside);
+  removeScrollListeners(); // 移除所有滚动监听
 
   if (observer.value) {
     observer.value.disconnect();
@@ -489,9 +550,8 @@ span.popover-trigger {
   display: inline-block;
 }
 
-.popoverfade-enter-active,
-.popoverfade-leave-active {
-  transition: opacity 0.3s ease;
+.popoverfade-enter-active {
+  transition: opacity 0.5s ease;
 }
 
 .popoverfade-enter-from,
@@ -529,7 +589,7 @@ span.popover-trigger {
     --popover-border-color: var(--popover-dark-border-color);
     --popover-shadow-color: var(--popover-dark-shadow-color);
   }
-
+  position: fixed;
   .popover-content {
     background: var(--popover-background-color);
     padding: var(--popover-content-padding);

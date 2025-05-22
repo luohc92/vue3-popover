@@ -7,20 +7,25 @@
 ```html
 npm i vue3-popover
 ```
+
 ### Global Import 按需引入
+
 ```
 import Popover from "vue3-popover";
 import "vue3-popover/style.css";
 const app = createApp(App);
 app.use(Popover);
 ```
+
 ### On-demand Import 按需引入
+
 ```
 <script setup lang="ts">
 import { Popover } from "vue3-popover";
 import "vue3-popover/style.css";
 </script>
 ```
+
 ```
 <template>
    <Popover
@@ -50,6 +55,7 @@ import "vue3-popover/style.css";
 | disabled    | 是否可用<br />whether Popover is disabled                              | boolean                                        | false   |
 | popperClass | 为 popper 添加类名<br />custom class name for popover                  | string                                         | —       |
 | appendTo    | 在哪个元素上加入弹窗<br />which element the popover CONTENT appends to | CSSSelector / HTMLElement                      | body    |
+| offset      | 设置 popover 的 偏移<br />set popover offset                           | number                                         | 10    |
 | zIndex      | 设置 popover 的 z-index<br />set popover z-index                       | number                                         | 1999    |
 
 ### 属性 Placement
@@ -85,4 +91,7 @@ import "vue3-popover/style.css";
 | --popover-dark-background-color | #1d1e1f             |
 | --popover-dark-border-color     | #414243             |
 | --popover-dark-shadow-color     | rgba(0, 0, 0, 0.12) |
+
+```
+
 ```

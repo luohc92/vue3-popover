@@ -11,6 +11,7 @@
 | disabled    | 是否可用<br />whether Popover is disabled                              | boolean                                        | false   |
 | popperClass | 为 popper 添加类名<br />custom class name for popover                  | string                                         | —       |
 | appendTo    | 在哪个元素上加入弹窗<br />which element the popover CONTENT appends to | CSSSelector / HTMLElement                      | body    |
+| offset      | 设置 popover 的 偏移<br />set popover offset                           | number                                         | 10      |
 | zIndex      | 设置 popover 的 z-index<br />set popover z-index                       | number                                         | 1999    |
 
 ### 属性 Placement
@@ -32,7 +33,7 @@
 
 ### 样式变量 Style variable
 
-| Name                            | Default         |
+| Name                            | Default             |
 | ------------------------------- | ------------------- |
 | --popover-title-color           | #333333             |
 | --popover-content-color         | #666666             |

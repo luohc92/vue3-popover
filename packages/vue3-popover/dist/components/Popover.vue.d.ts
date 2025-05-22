@@ -6,6 +6,10 @@ declare const _default: {
             type: (StringConstructor | NumberConstructor)[];
             default: number;
         };
+        offset: {
+            type: NumberConstructor;
+            default: number;
+        };
         title: StringConstructor;
         content: StringConstructor;
         zIndex: {
@@ -30,6 +34,7 @@ declare const _default: {
         darkMode: boolean;
         disabled: boolean;
         width: string | number;
+        offset: number;
         zIndex: number;
         trigger: "click" | "hover";
         appendTo: string;
@@ -44,6 +49,10 @@ declare const _default: {
         placement: PropType<"top" | "top-start" | "top-end" | "bottom" | "bottom-start" | "bottom-end" | "left" | "left-start" | "left-end" | "right" | "right-start" | "right-end">;
         width: {
             type: (StringConstructor | NumberConstructor)[];
+            default: number;
+        };
+        offset: {
+            type: NumberConstructor;
             default: number;
         };
         title: StringConstructor;
@@ -70,6 +79,7 @@ declare const _default: {
         darkMode: boolean;
         disabled: boolean;
         width: string | number;
+        offset: number;
         zIndex: number;
         trigger: "click" | "hover";
         appendTo: string;
@@ -81,6 +91,10 @@ declare const _default: {
     placement: PropType<"top" | "top-start" | "top-end" | "bottom" | "bottom-start" | "bottom-end" | "left" | "left-start" | "left-end" | "right" | "right-start" | "right-end">;
     width: {
         type: (StringConstructor | NumberConstructor)[];
+        default: number;
+    };
+    offset: {
+        type: NumberConstructor;
         default: number;
     };
     title: StringConstructor;
@@ -107,6 +121,7 @@ declare const _default: {
     darkMode: boolean;
     disabled: boolean;
     width: string | number;
+    offset: number;
     zIndex: number;
     trigger: "click" | "hover";
     appendTo: string;
