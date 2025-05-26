@@ -1,8 +1,8 @@
-import { defineComponent as ae, ref as h, watch as D, nextTick as le, computed as W, onMounted as re, onUnmounted as oe, openBlock as R, createElementBlock as N, createElementVNode as L, renderSlot as z, createBlock as ue, Teleport as ie, createVNode as se, Transition as ne, withCtx as ve, normalizeClass as A, normalizeStyle as U, toDisplayString as X, createCommentVNode as Y, createTextVNode as ce } from "vue";
-const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he = {
+import { defineComponent as le, ref as d, watch as W, nextTick as re, computed as A, onMounted as oe, onUnmounted as ue, openBlock as T, createElementBlock as z, createElementVNode as M, renderSlot as $, createBlock as ie, Teleport as se, createVNode as ne, Transition as ve, withCtx as ce, normalizeClass as U, normalizeStyle as X, toDisplayString as Y, createCommentVNode as j, createTextVNode as fe } from "vue";
+const de = { class: "popover-wrapper" }, he = { class: "popover-content" }, pe = {
   key: 0,
   class: "popover-title"
-}, pe = /* @__PURE__ */ ae({
+}, ge = /* @__PURE__ */ le({
   __name: "Popover",
   props: {
     placement: String,
@@ -33,12 +33,12 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
     disabled: Boolean
   },
   emits: ["open", "close"],
-  setup(s, { emit: T }) {
-    const o = s, _ = (a) => typeof a == "number", v = h(!1), M = () => {
-      v.value = !0, $("open");
-    }, C = () => {
-      v.value = !1, b.value = !1, l.value = o.placement || "bottom", $("close");
-    }, E = [
+  setup(s, { expose: _, emit: R }) {
+    const o = s, E = (a) => typeof a == "number", h = d(!1), x = () => {
+      h.value = !0, O("open");
+    }, k = () => {
+      h.value = !1, b.value = !1, l.value = o.placement || "bottom", O("close");
+    }, B = [
       "top",
       "top-start",
       "top-end",
@@ -51,32 +51,32 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
       "right",
       "right-start",
       "right-end"
-    ], g = h(), i = h(), t = h(), e = h(), k = h(null), l = h(o.placement || "bottom"), $ = T, j = () => {
+    ], g = d(), i = d(), t = d(), e = d(), y = d(null), l = d(o.placement || "bottom"), O = R, q = () => {
       if (!i.value || !t.value)
         return;
-      const a = i.value.getBoundingClientRect(), r = window.innerHeight, u = window.innerWidth, y = a.top - t.value.height - 10, P = a.bottom + 10, S = a.left - t.value.width - 10, x = a.right + 10, n = (w) => {
+      const a = i.value.getBoundingClientRect(), r = window.innerHeight, u = window.innerWidth, P = a.top - t.value.height - 10, S = a.bottom + 10, C = a.left - t.value.width - 10, L = a.right + 10, n = (w) => {
         if (!w)
           return "bottom";
-        const f = a.top < t.value.height, d = a.right + t.value.width > u, m = a.bottom + t.value.height > r, p = a.left < 0;
+        const c = a.top < t.value.height, f = a.right + t.value.width > u, m = a.bottom + t.value.height > r, p = a.left < 0;
         switch (w) {
           case "top":
-            if (f)
+            if (c)
               return "bottom";
             if (p)
               return "top-end";
-            if (d)
+            if (f)
               return "top-start";
             break;
           case "top-start":
-            if (f)
+            if (c)
               return "bottom-start";
             if (p)
               return "top-end";
             break;
           case "top-end":
-            if (f)
+            if (c)
               return "bottom-end";
-            if (d)
+            if (f)
               return "top-start";
             break;
           case "bottom":
@@ -84,13 +84,13 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
               return "top";
             if (p)
               return "bottom-end";
-            if (d)
+            if (f)
               return "bottom-start";
             break;
           case "bottom-start":
             if (m)
               return "top-start";
-            if (p || d)
+            if (p || f)
               return "bottom-end";
             break;
           case "bottom-end":
@@ -102,7 +102,7 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
           case "left":
             if (p)
               return "right";
-            if (f)
+            if (c)
               return "left-start";
             if (m)
               return "left-end";
@@ -116,27 +116,27 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
           case "left-end":
             if (p)
               return "right-end";
-            if (f)
+            if (c)
               return "left-start";
             break;
           case "right":
-            if (d)
-              return "left";
             if (f)
+              return "left";
+            if (c)
               return "right-start";
             if (m)
               return "right-end";
             break;
           case "right-start":
-            if (d)
+            if (f)
               return "left-start";
             if (m)
               return "top-start";
             break;
           case "right-end":
-            if (d)
-              return "left-end";
             if (f)
+              return "left-end";
+            if (c)
               return "right-start";
             break;
         }
@@ -144,103 +144,103 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
       };
       switch (l.value) {
         case "top":
-          y < 0 ? l.value = "bottom" : l.value = n(l.value);
+          P < 0 ? l.value = "bottom" : l.value = n(l.value);
           break;
         case "bottom":
-          P + t.value.height > r ? l.value = "top" : l.value = n(l.value);
+          S + t.value.height > r ? l.value = "top" : l.value = n(l.value);
           break;
         case "left":
           const w = n(l.value);
-          w !== l.value ? l.value = w : S < 0 && (l.value = "right");
+          w !== l.value ? l.value = w : C < 0 && (l.value = "right");
           break;
         case "right":
-          const f = n(l.value);
-          f !== l.value ? l.value = f : x + t.value.width > u && (l.value = "left");
+          const c = n(l.value);
+          c !== l.value ? l.value = c : L + t.value.width > u && (l.value = "left");
           break;
         case "top-start":
-          y < 0 ? l.value = "bottom-start" : l.value = n(l.value);
+          P < 0 ? l.value = "bottom-start" : l.value = n(l.value);
           break;
         case "top-end":
-          y < 0 ? l.value = "bottom-end" : l.value = n(l.value);
+          P < 0 ? l.value = "bottom-end" : l.value = n(l.value);
           break;
         case "bottom-start":
-          P + t.value.height > r ? l.value = "top-start" : l.value = n(l.value);
+          S + t.value.height > r ? l.value = "top-start" : l.value = n(l.value);
           break;
         case "bottom-end":
-          P + t.value.height > r ? l.value = "top-end" : l.value = n(l.value);
+          S + t.value.height > r ? l.value = "top-end" : l.value = n(l.value);
           break;
         case "left-start":
-          S < 0 ? l.value = "right-start" : l.value = n(l.value);
+          C < 0 ? l.value = "right-start" : l.value = n(l.value);
           break;
         case "left-end":
-          S < 0 ? l.value = "right-end" : l.value = n(l.value);
+          C < 0 ? l.value = "right-end" : l.value = n(l.value);
           break;
         case "right-start":
-          x + t.value.width > u ? l.value = "left-start" : l.value = n(l.value);
+          L + t.value.width > u ? l.value = "left-start" : l.value = n(l.value);
           break;
         case "right-end":
-          const d = n(l.value);
-          d !== l.value ? l.value = d : x + t.value.width > u && (l.value = "left-end");
+          const f = n(l.value);
+          f !== l.value ? l.value = f : L + t.value.width > u && (l.value = "left-end");
           break;
       }
-    }, B = () => {
-      e.value = i.value.getBoundingClientRect(), v.value && g.value && (t.value = g.value.getBoundingClientRect(), j());
-    }, O = () => {
-      B();
-    }, I = (a) => {
+    }, N = () => {
+      i.value && (e.value = i.value.getBoundingClientRect()), h.value && g.value && (t.value = g.value.getBoundingClientRect(), q());
+    }, I = () => {
+      N();
+    }, H = (a) => {
       const r = [];
       let u = a.parentElement;
       for (; u; ) {
-        const { overflow: y, overflowX: P, overflowY: S } = window.getComputedStyle(u);
-        /(auto|scroll|overlay)/.test(y + P + S) && r.push(u), u = u.parentElement;
+        const { overflow: P, overflowX: S, overflowY: C } = window.getComputedStyle(u);
+        /(auto|scroll|overlay)/.test(P + S + C) && r.push(u), u = u.parentElement;
       }
       return r;
-    }, q = () => {
-      if (!i.value)
-        return;
-      I(i.value).forEach((r) => {
-        r.addEventListener("scroll", O, !0);
-      });
     }, F = () => {
       if (!i.value)
         return;
-      I(i.value).forEach((r) => {
-        r.removeEventListener("scroll", O, !0);
+      H(i.value).forEach((r) => {
+        r.addEventListener("scroll", I, !0);
+      });
+    }, G = () => {
+      if (!i.value)
+        return;
+      H(i.value).forEach((r) => {
+        r.removeEventListener("scroll", I, !0);
       });
     };
-    D(
+    W(
       () => o.placement,
       (a) => {
-        a && E.includes(a) && (l.value = a);
+        a && B.includes(a) && (l.value = a);
       },
       { immediate: !0 }
-    ), D(
-      () => v.value,
+    ), W(
+      () => h.value,
       (a) => {
-        !a || le(() => {
-          B(), q();
+        !a || re(() => {
+          N(), F();
         });
       }
     );
-    const G = () => {
-      o.trigger !== "click" || o.disabled || (v.value ? C() : M());
-    }, c = h(), J = () => {
-      o.trigger !== "hover" || o.disabled || (c.value && clearTimeout(c.value), b.value = !1, M());
-    }, b = h(!1), K = () => {
-      o.trigger !== "hover" || o.disabled || (c.value && clearTimeout(c.value), c.value = setTimeout(() => {
-        b.value || C();
-      }, 300));
-    }, Q = () => {
-      o.trigger !== "hover" || o.disabled || (b.value = !1, c.value && clearTimeout(c.value), c.value = setTimeout(() => {
-        b.value || C();
+    const J = () => {
+      o.trigger !== "click" || o.disabled || (h.value ? k() : x());
+    }, v = d(), K = () => {
+      o.trigger !== "hover" || o.disabled || (v.value && clearTimeout(v.value), b.value = !1, x());
+    }, b = d(!1), Q = () => {
+      o.trigger !== "hover" || o.disabled || (v.value && clearTimeout(v.value), v.value = setTimeout(() => {
+        b.value || k();
       }, 300));
     }, Z = () => {
-      b.value = !0, c.value && clearTimeout(c.value);
-    }, ee = W(() => {
+      o.trigger !== "hover" || o.disabled || (b.value = !1, v.value && clearTimeout(v.value), v.value = setTimeout(() => {
+        b.value || k();
+      }, 300));
+    }, ee = () => {
+      b.value = !0, v.value && clearTimeout(v.value);
+    }, te = A(() => {
       if (!i.value || !t.value)
         return {};
       let a = 0, r = 0, u = l.value;
-      switch (E.includes(u) || (u = "bottom"), u) {
+      switch (B.includes(u) || (u = "bottom"), u) {
         case "left":
           a = t.value.width - 5, r = t.value.height / 2 - 5;
           break;
@@ -279,11 +279,11 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
           break;
       }
       return r > t.value.height && (r = t.value.height - 20), a > t.value.width && (a = t.value.width - 20), { left: `${a}px`, top: `${r}px` };
-    }), te = W(() => {
+    }), ae = A(() => {
       if (!i.value || !t.value)
         return {};
       let a = l.value;
-      E.includes(a) || (a = "bottom");
+      B.includes(a) || (a = "bottom");
       let r = 0, u = 0;
       switch (a) {
         case "left":
@@ -324,56 +324,59 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
           break;
       }
       return { top: `${r}px`, left: `${u}px` };
-    }), H = () => {
+    }), V = () => {
       e.value && (e.value = i.value.getBoundingClientRect()), g.value && (t.value = g.value.getBoundingClientRect());
-    }, V = (a) => {
-      g.value && !g.value.contains(a.target) && !i.value.contains(a.target) && C();
+    }, D = (a) => {
+      g.value && !g.value.contains(a.target) && !i.value.contains(a.target) && k();
     };
-    return re(() => {
-      window.addEventListener("resize", H), window.addEventListener("click", V), i.value && (k.value = new MutationObserver(() => {
-        v.value && B();
-      }), k.value.observe(i.value, {
+    return oe(() => {
+      window.addEventListener("resize", V), window.addEventListener("click", D), i.value && (y.value = new MutationObserver(() => {
+        h.value && N();
+      }), y.value.observe(i.value, {
         attributes: !0,
         childList: !0,
         subtree: !0,
         characterData: !0
       }));
-    }), oe(() => {
-      v.value = !1, b.value = !1, window.removeEventListener("resize", H), window.removeEventListener("click", V), F(), k.value && (k.value.disconnect(), k.value = null);
-    }), (a, r) => (R(), N("div", fe, [
-      L("span", {
+    }), ue(() => {
+      h.value = !1, b.value = !1, window.removeEventListener("resize", V), window.removeEventListener("click", D), G(), y.value && (y.value.disconnect(), y.value = null);
+    }), _({
+      open: x,
+      close: k
+    }), (a, r) => (T(), z("div", de, [
+      M("span", {
         class: "popover-trigger",
         ref_key: "triggerRef",
         ref: i,
-        onClick: G,
-        onMouseenter: J,
-        onMouseleave: K
+        onClick: J,
+        onMouseenter: K,
+        onMouseleave: Q
       }, [
-        z(a.$slots, "reference", {}, void 0, !0)
+        $(a.$slots, "reference", {}, void 0, !0)
       ], 544),
-      (R(), ue(ie, { to: s.appendTo }, [
-        se(ne, { name: "popoverfade" }, {
-          default: ve(() => [
-            v.value ? (R(), N("div", {
+      (T(), ie(se, { to: s.appendTo }, [
+        ne(ve, { name: "popoverfade" }, {
+          default: ce(() => [
+            h.value ? (T(), z("div", {
               key: 0,
-              class: A(["popover", [s.popperClass, { "dark-mode": s.darkMode }]]),
-              onMouseleave: Q,
-              onMouseenter: Z,
-              style: U([{ zIndex: s.zIndex, width: _(o.width) ? o.width + "px" : o.width }, te.value]),
+              class: U(["popover", [s.popperClass, { "dark-mode": s.darkMode }]]),
+              onMouseleave: Z,
+              onMouseenter: ee,
+              style: X([{ zIndex: s.zIndex, width: E(o.width) ? o.width + "px" : o.width }, ae.value]),
               ref_key: "popoverRef",
               ref: g
             }, [
-              L("div", {
-                class: A(["popover-arrow", "popover-arrow__" + l.value]),
-                style: U(ee.value)
+              M("div", {
+                class: U(["popover-arrow", "popover-arrow__" + l.value]),
+                style: X(te.value)
               }, null, 6),
-              L("div", de, [
-                s.title ? (R(), N("div", he, X(s.title), 1)) : Y("", !0),
-                a.$slots.default ? z(a.$slots, "default", { key: 2 }, void 0, !0) : z(a.$slots, "default", { key: 1 }, () => [
-                  ce(X(s.content), 1)
+              M("div", he, [
+                s.title ? (T(), z("div", pe, Y(s.title), 1)) : j("", !0),
+                a.$slots.default ? $(a.$slots, "default", { key: 2 }, void 0, !0) : $(a.$slots, "default", { key: 1 }, () => [
+                  fe(Y(s.content), 1)
                 ], !0)
               ])
-            ], 38)) : Y("", !0)
+            ], 38)) : j("", !0)
           ]),
           _: 3
         })
@@ -381,17 +384,17 @@ const fe = { class: "popover-wrapper" }, de = { class: "popover-content" }, he =
     ]));
   }
 });
-const ge = (s, T) => {
-  const o = s.__vccOpts || s;
-  for (const [_, v] of T)
-    o[_] = v;
-  return o;
-}, be = /* @__PURE__ */ ge(pe, [["__scopeId", "data-v-d51a0833"]]), we = {
+const be = (s, _) => {
+  const R = s.__vccOpts || s;
+  for (const [o, E] of _)
+    R[o] = E;
+  return R;
+}, me = /* @__PURE__ */ be(ge, [["__scopeId", "data-v-14a94e9e"]]), ke = {
   install: (s) => {
-    s.component("Popover", be);
+    s.component("Popover", me);
   }
 };
 export {
-  be as Popover,
-  we as default
+  me as Popover,
+  ke as default
 };

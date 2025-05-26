@@ -30,7 +30,10 @@ declare const _default: {
     }>> & Readonly<{
         onOpen?: (...args: any[]) => any;
         onClose?: (...args: any[]) => any;
-    }>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("open" | "close")[], import("vue").PublicProps, {
+    }>, {
+        open: () => void;
+        close: () => void;
+    }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("open" | "close")[], import("vue").PublicProps, {
         darkMode: boolean;
         disabled: boolean;
         width: string | number;
@@ -75,7 +78,10 @@ declare const _default: {
     }>> & Readonly<{
         onOpen?: (...args: any[]) => any;
         onClose?: (...args: any[]) => any;
-    }>, {}, {}, {}, {}, {
+    }>, {
+        open: () => void;
+        close: () => void;
+    }, {}, {}, {}, {
         darkMode: boolean;
         disabled: boolean;
         width: string | number;
@@ -117,7 +123,10 @@ declare const _default: {
 }>> & Readonly<{
     onOpen?: (...args: any[]) => any;
     onClose?: (...args: any[]) => any;
-}>, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("open" | "close")[], "open" | "close", {
+}>, {
+    open: () => void;
+    close: () => void;
+}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("open" | "close")[], "open" | "close", {
     darkMode: boolean;
     disabled: boolean;
     width: string | number;

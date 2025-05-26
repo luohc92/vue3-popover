@@ -261,7 +261,9 @@ const checkPosition = () => {
 };
 
 const updatePosition = () => {
-  triggerRect.value = triggerRef.value.getBoundingClientRect();
+  if (triggerRef.value) {
+    triggerRect.value = triggerRef.value.getBoundingClientRect();
+  }
   if (visible.value) {
     if (popoverRef.value) {
       popoverRect.value = popoverRef.value.getBoundingClientRect();
@@ -542,6 +544,10 @@ onUnmounted(() => {
     observer.value.disconnect();
     observer.value = null;
   }
+});
+defineExpose({
+  open,
+  close,
 });
 </script>
 
